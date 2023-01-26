@@ -17,6 +17,9 @@ server {
   listen 443 ssl http2;
   listen [::]:443 ssl http2;
   server_name files.example.com;
+  ssl on;
+  ssl_certificate /etc/letsencrypt/live/files.example.com/fullchain.pem;
+  ssl_certificate_key /etc/letsencrypt/live/files.example.com/privkey.pem;
   root /var/www/html;
 
   keepalive_timeout 30;
@@ -29,7 +32,7 @@ server {
     try_files $uri @s3;
   }
 
-  set $s3_backend 'https://YOUR_BUCKET_NAME.YOUR_S3_HOSTNAME';
+  set $s3_backend 'https://YOUR_S3_HOSTNAME/YOUR_BUCKET_NAME';
 
   location @s3 {
     limit_except GET {
